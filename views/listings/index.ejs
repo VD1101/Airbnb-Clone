@@ -1,0 +1,200 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 1rem;
+  }
+  .filter {
+    text-align: center;
+    margin: 0 0.6rem;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    transition: 0.5s;
+  }
+  .filter:hover {
+    opacity: 1;
+  }
+
+  .hide-taxes-info {
+    display: none;
+  }
+
+  .tax-toggle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left : auto;
+    margin-top: -.7rem;
+    padding: 0 2rem;
+    border-radius: 1rem;
+    border: 1px solid rgb(0, 0,0,0.6);
+    height: 3.5rem;
+    /* margin-right: -1rem; */
+
+  }
+  #flexSwitchCheckDefault{
+    font-size: 1.5rem;
+    /* contain: content; */
+  }
+  .form-switch{
+    display: flex;
+    text-align: center;
+    align-items: center;
+  }
+
+  
+</style>
+<body>
+  <div id="filters">
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-border-all"></i>
+      </div>
+      <p>All</p>
+    </div>
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-fire"></i>
+      </div>
+      <p>Trending</p>
+    </div>
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-igloo"></i>
+      </div>
+      <p>Tiny homes</p>
+    </div>
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-water"></i>
+      </div>
+      <p>Amazing pools</p>
+    </div>
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-person-skiing-nordic"></i>
+      </div>
+      <p>Ski-in/out</p>
+    </div>
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-umbrella-beach"></i>
+      </div>
+      <p>Beach</p>
+    </div>
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-campground"></i>
+      </div>
+      <p>Camping</p>
+    </div>
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-sailboat"></i>
+      </div>
+      <p>Boat</p>
+    </div>
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-tower-observation"></i>
+      </div>
+      <p>Tower</p>
+    </div>
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-earth-americas"></i>
+      </div>
+      <p>Earth Homes</p>
+    </div>
+    <div class="filter">
+      <div>
+        <i class="fa-solid fa-snowflake"></i>
+      </div>
+      <p>Arctic</p>
+    </div>
+    <div class="tax-toggle">
+      <div class="form-check form-switch">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="flexSwitchCheckDefault"
+        />
+        <label class="form-check-label" for="flexSwitchCheckDefault"
+          >Dsiplay Total After Taxes.</label
+        >
+      </div>
+    </div>
+  </div>
+  <div class="row row-cols-sm-1 offset-1">
+    <% for(let listing of allListing) {%>
+    <div class="card col-xl-3 index-card mt-3 mb-3" style="width: 20rem">
+      <a href="/listings/<%= listing.id  %>" class="index-listing">
+        <img
+          src="<%= listing.image[0].url  %>"
+          class="card-img-top"
+          alt="image"
+          style="height: 20rem"
+        />
+        <div class="card-body ml-1 mt-1">
+          <h5 class="card-title m-0"><%= listing.title %></h5>
+          <p class="card-text m-0 no-tex">
+            &dollar;<%= listing.price.toLocaleString("en-CA")%> / night
+          </p>
+          <p class="card-text m-0 with-tax hide-taxes-info " >
+            &dollar;<%= (listing.price + Math.round(listing.price*13/100)).toLocaleString("en-CA") %>
+            / night
+          </p>
+        </div>
+      </a>
+    </div>
+    <% } %>
+  </div>
+
+  <!-- In index.ejs -->
+
+  <script>
+    let filters = document.querySelectorAll(".filter");
+
+    let taxSwitch = document.querySelector("#flexSwitchCheckDefault");
+
+    count = 1;  
+    taxSwitch.addEventListener("click",()=>{
+      ++count;
+      let withtax = document.getElementsByClassName("with-tax");
+      let notax = document.getElementsByClassName("no-tex");
+      // price.classList.add("hide-taxes-info");
+
+      if(count%2!=0){
+        for( let info of notax){
+          info.classList.remove("hide-taxes-info");
+        } 
+        for(let info of withtax){
+          info.classList.add("hide-taxes-info");
+        }
+      }
+      if(count%2==0){
+        for( let info of notax){
+          info.classList.add("hide-taxes-info");
+          
+        } 
+        for( let info of withtax){
+          info.classList.remove("hide-taxes-info");
+        }
+      }
+
+      
+
+    })
+
+    for (let filter of filters) {
+      let p = filter.querySelector("p");
+      filter.addEventListener("click", () => {
+        let filterValue = p.innerText.split(" ").join(""); // Removes spaces
+        console.log("Selected filter value:", filterValue);
+        window.location.href = `/listings?category=${filterValue}`;
+      });
+    }
+  </script>
+</body>

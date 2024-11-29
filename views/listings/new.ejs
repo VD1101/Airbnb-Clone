@@ -1,0 +1,330 @@
+<!-- start  -->
+<% layout("/layouts/boilerplate") %>
+
+<body>
+  <div class="container mt-5 mb-5">
+    <div class="col-lg-8 offset-lg-2">
+      <h1 class="mb-4 text-center">Create a New Listing</h1>
+      <form
+        method="post"
+        action="/listings"
+        class="needs-validation shadow-lg p-4 rounded border"
+        novalidate
+        enctype="multipart/form-data"
+      >
+        <!-- Title Field -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            name="listing[title]"
+            id="title"
+            class="form-control"
+            placeholder="Enter listing title"
+            required
+          />
+          <div class="invalid-feedback">Please enter a title.</div>
+        </div>
+
+        <!-- Description Field -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            name="listing[description]"
+            id="description"
+            class="form-control"
+            rows="4"
+            placeholder="Describe your listing"
+            required
+          ></textarea>
+          <div class="invalid-feedback">Please provide a description.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="categories">Select Category:</label>
+          <select class="form-control" id="categories" name="listing[categories]" required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="Trending">Trending</option>
+            <option value="Tiny homes">Trending</option>
+            <option value="Amazing pools">Amazing pools</option>
+            <option value="Ski-in/out">Ski-in/out</option>
+            <option value="Beach">Beach</option>
+            <option value="Camping">Camping</option>
+            <option value="Boat">Boat</option>
+            <option value="Tower">Tower</option>
+            <option value="Earth Homes">Earth Homes</option>
+            <option value="Arctic">Arctic</option>
+          </select>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="mb-3">
+          <label for="image" class="form-label">Upload Listing Image</label>
+          <div class="file-input-wrapper">
+            <input
+              type="file"
+              name="listing[image][][url]"
+              id="image"
+              class="form-control file-input"
+              multiple
+              required
+            />
+            <span class="file-input-label">Choose files...</span>
+            <div class="invalid-feedback">
+              Please upload at least one image.
+            </div>
+          </div>
+        </div>
+        <!-- <div class="mb-3">
+          <label for="image" class="form-label">Upload Listing Images</label>
+          <div class="input-group">
+            <input
+              type="file"
+              name="listing[image][][url]"
+              id="image"
+              class="form-control"
+              multiple
+              required
+            />
+            <div class="invalid-feedback">Please upload at least one image.</div>
+          </div>
+          <small class="form-text text-muted">You can upload up to 3 images.</small>
+        </div> -->
+
+        <!-- Price and Country Fields -->
+        <div class="row mb-3">
+          <div class="col-md-4 p-0">
+            <label for="price" class="form-label">Price (per night)</label>
+            <input
+              type="number"
+              name="listing[price]"
+              id="price"
+              class="form-control"
+              placeholder="Enter price in $"
+              required
+            />
+            <div class="invalid-feedback">Please provide a valid price.</div>
+          </div>
+
+          <div class="col ml-2 p-0">
+            <label for="country" class="form-label">Country</label>
+            <input
+              type="text"
+              name="listing[country]"
+              id="country"
+              class="form-control"
+              placeholder="Enter country"
+              required
+            />
+            <div class="invalid-feedback">Please enter a country.</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="location" class="form-label">Location</label>
+          <input
+            type="text"
+            name="listing[location]"
+            id="location"
+            class="form-control"
+            placeholder="Enter the exact location"
+            required
+          />
+          <div class="invalid-feedback">Please enter a location.</div>
+        </div>
+        <!-- Other fields -->
+
+        <div class="mb-3">
+          <label for="amenities" class="form-label">Amenities</label>
+          <div class="row offset-1">
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Wi-Fi"
+                id="wifi"
+                class="form-check-input"
+              />
+              <label for="wifi" class="form-check-label">Wi-Fi</label>
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Private beach"
+                id="privateBeach"
+                class="form-check-input"
+              />
+              <label for="privateBeach" class="form-check-label"
+                >Private beach</label
+              >
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Jacuzzi"
+                id="jacuzzi"
+                class="form-check-input"
+              />
+              <label for="jacuzzi" class="form-check-label">Jacuzzi</label>
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Concierge service"
+                id="concierge"
+                class="form-check-input"
+              />
+              <label for="concierge" class="form-check-label"
+                >Concierge service</label
+              >
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Swimming pool"
+                id="swimmingPool"
+                class="form-check-input"
+              />
+              <label for="swimmingPool" class="form-check-label"
+                >Swimming pool</label
+              >
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Gym"
+                id="gym"
+                class="form-check-input"
+              />
+              <label for="gym" class="form-check-label">Gym</label>
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Parking"
+                id="parking"
+                class="form-check-input"
+              />
+              <label for="parking" class="form-check-label">Parking</label>
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Breakfast included"
+                id="breakfastIncluded"
+                class="form-check-input"
+              />
+              <label for="breakfastIncluded" class="form-check-label"
+                >Breakfast included</label
+              >
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Pet-friendly"
+                id="petFriendly"
+                class="form-check-input"
+              />
+              <label for="petFriendly" class="form-check-label"
+                >Pet-friendly</label
+              >
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Air conditioning"
+                id="airConditioning"
+                class="form-check-input"
+              />
+              <label for="airConditioning" class="form-check-label"
+                >Air conditioning</label
+              >
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Free toiletries"
+                id="freeToiletries"
+                class="form-check-input"
+              />
+              <label for="freeToiletries" class="form-check-label"
+                >Free toiletries</label
+              >
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Outdoor seating area"
+                id="outdoorSeating"
+                class="form-check-input"
+              />
+              <label for="outdoorSeating" class="form-check-label"
+                >Outdoor seating area</label
+              >
+            </div>
+            <div class="col-6 form-check">
+              <input
+                type="checkbox"
+                name="listing[amenities][]"
+                value="Spa services"
+                id="spaServices"
+                class="form-check-input"
+              />
+              <label for="spaServices" class="form-check-label"
+                >Spa services</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Information -->
+
+        <div class="mb-3">
+          <label for="phone" class="form-label">Phone</label>
+          <input
+            type="text"
+            name="listing[contact][phone]"
+            id="phone"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Please enter your phone number.</div>
+        </div>
+
+        
+        <!-- Location Field -->
+
+
+
+
+        <!-- Submit Button -->
+        <div>
+          <button type="submit" class="btn btn-dark btn-lg px-5">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+<!-- end  -->
+
+<script>
+  document.getElementById("image").addEventListener("change", function () {
+    var fileNames = Array.from(this.files)
+      .map((file) => file.name)
+      .join(", ");
+    var label = this.nextElementSibling;
+    label.innerText = fileNames || "Choose files..."; // Show selected files or reset to default text
+  });
+</script>

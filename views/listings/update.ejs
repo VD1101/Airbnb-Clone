@@ -1,0 +1,304 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="col-md-8 offset-md-2 mt-4 mb-5">
+  <h2 class="text-center mb-4">Edit Listing</h2>
+  <form
+    method="post"
+    action="/listings/<%=listing.id %>?_method=put"
+    class="p-4 rounded bg-light shadow-sm needs-validation"
+    novalidate
+    enctype="multipart/form-data"
+  >
+    <!-- Title Field -->
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input
+        type="text"
+        name="listing[title]"
+        id="title"
+        class="form-control"
+        value="<%= listing.title %>"
+        required
+      />
+      <div class="invalid-feedback">Please provide a title.</div>
+    </div>
+
+    <!-- Description Field -->
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea
+        name="listing[description]"
+        id="description"
+        class="form-control"
+        required
+        rows="4"
+      >
+<%= listing.description %></textarea
+      >
+      <div class="invalid-feedback">Please provide a description.</div>
+    </div>
+
+    <!-- Image Upload Field -->
+    <div class="mb-3">
+      <label for="image" class="form-label">Upload Listing Image</label>
+      <div class="file-input-wrapper">
+        <input
+          type="file"
+          name="listing[image][][url]"
+          id="image"
+          class="form-control file-input"
+          multiple
+        />
+        <span class="file-input-label">Choose files...</span>
+        <div class="invalid-feedback">
+          Please upload at least one image.
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <!--  -->
+
+
+    <!-- categories for the listing  -->
+    <div class="form-group">
+      <label for="categories">Select Category:</label>
+      <select class="form-control" id="categories" name="listing[categories]">
+        <option value="<%= listing.categories  %>" disabled selected><%= listing.categories  %></option>
+        <option value="Trending">Trending</option>
+        <option value="Tiny homes">Trending</option>
+        <option value="Amazing pools">Amazing pools</option>
+        <option value="Ski-in/out">Ski-in/out</option>
+        <option value="Beach">Beach</option>
+        <option value="Camping">Camping</option>
+        <option value="Boat">Boat</option>
+        <option value="Tower">Tower</option>
+        <option value="Earth Homes">Earth Homes</option>
+        <option value="Arctic">Arctic</option>
+      </select>
+    </div>
+
+    <!-- Price and Country Fields (Two Columns) -->
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input
+          type="number"
+          name="listing[price]"
+          id="price"
+          class="form-control"
+          value="<%= listing.price %>"
+          required
+        />
+        <div class="invalid-feedback">Please provide a price.</div>
+      </div>
+
+      <div class="col-md-8 mb-3">
+        <label for="country" class="form-label">Country</label>
+        <input
+          type="text"
+          name="listing[country]"
+          id="country"
+          class="form-control"
+          value="<%= listing.country %>"
+          required
+        />
+        <div class="invalid-feedback">Please provide a country.</div>
+      </div>
+    </div>
+
+    <!-- Location Field -->
+    <div class="mb-4">
+      <label for="location" class="form-label">Location</label>
+      <input
+        type="text"
+        name="listing[location]"
+        id="location"
+        class="form-control"
+        value="<%= listing.location %>"
+        required
+      />
+      <div class="invalid-feedback">Please provide a location.</div>
+    </div>
+
+    <!-- Other fields -->
+
+    <div class="mb-3">
+      <label for="amenities" class="form-label">Amenities</label>
+      <div class="row offset-1">
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Wi-Fi"
+            id="wifi"
+            class="form-check-input"
+            <%= existingAmenities.includes("Wi-Fi") ? "checked" : "" %>
+          />
+          <label for="wifi" class="form-check-label">Wi-Fi</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Private beach"
+            id="privateBeach"
+            class="form-check-input"
+            <%= existingAmenities.includes("Private beach") ? "checked" : "" %>
+          />
+          <label for="privateBeach" class="form-check-label">Private beach</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Jacuzzi"
+            id="jacuzzi"
+            class="form-check-input"
+            <%= existingAmenities.includes("Jacuzzi") ? "checked" : "" %>
+          />
+          <label for="jacuzzi" class="form-check-label">Jacuzzi</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Concierge service"
+            id="concierge"
+            class="form-check-input"
+            <%= existingAmenities.includes("Concierge service") ? "checked" : "" %>
+          />
+          <label for="concierge" class="form-check-label">Concierge service</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Swimming pool"
+            id="swimmingPool"
+            class="form-check-input"
+            <%= existingAmenities.includes("Swimming pool") ? "checked" : "" %>
+          />
+          <label for="swimmingPool" class="form-check-label">Swimming pool</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Gym"
+            id="gym"
+            class="form-check-input"
+            <%= existingAmenities.includes("Gym") ? "checked" : "" %>
+          />
+          <label for="gym" class="form-check-label">Gym</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Parking"
+            id="parking"
+            class="form-check-input"
+            <%= existingAmenities.includes("Parking") ? "checked" : "" %>
+          />
+          <label for="parking" class="form-check-label">Parking</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Breakfast included"
+            id="breakfastIncluded"
+            class="form-check-input"
+            <%= existingAmenities.includes("Breakfast included") ? "checked" : "" %>
+          />
+          <label for="breakfastIncluded" class="form-check-label">Breakfast included</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Pet-friendly"
+            id="petFriendly"
+            class="form-check-input"
+            <%= existingAmenities.includes("Pet-friendly") ? "checked" : "" %>
+          />
+          <label for="petFriendly" class="form-check-label">Pet-friendly</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Air conditioning"
+            id="airConditioning"
+            class="form-check-input"
+            <%= existingAmenities.includes("Air conditioning") ? "checked" : "" %>
+          />
+          <label for="airConditioning" class="form-check-label">Air conditioning</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Free toiletries"
+            id="freeToiletries"
+            class="form-check-input"
+            <%= existingAmenities.includes("Free toiletries") ? "checked" : "" %>
+          />
+          <label for="freeToiletries" class="form-check-label">Free toiletries</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Outdoor seating area"
+            id="outdoorSeating"
+            class="form-check-input"
+            <%= existingAmenities.includes("Outdoor seating area") ? "checked" : "" %>
+          />
+          <label for="outdoorSeating" class="form-check-label">Outdoor seating area</label>
+        </div>
+        <div class="col-6 form-check">
+          <input
+            type="checkbox"
+            name="listing[amenities][]"
+            value="Spa services"
+            id="spaServices"
+            class="form-check-input"
+            <%= existingAmenities.includes("Spa services") ? "checked" : "" %>
+          />
+          <label for="spaServices" class="form-check-label">Spa services</label>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Contact Information -->
+
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone</label>
+      <input
+        type="text"
+        name="listing[contact][phone]"
+        id="phone"
+        class="form-control"
+        value="<%= listing.contact.phone  %>"
+        required
+      />
+      <div class="invalid-feedback">Please enter your phone number.</div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-dark w-50">Update Listing</button>
+    </div>
+  </form>
+</div>
+<script>
+  document.getElementById("image").addEventListener("change", function () {
+    var fileNames = Array.from(this.files)
+      .map((file) => file.name)
+      .join(", ");
+    var label = this.nextElementSibling;
+    label.innerText = fileNames || "Choose files..."; // Show selected files or reset to default text
+  });
+</script> 

@@ -1,0 +1,107 @@
+<div class="reaview mb-3">
+  <% if (currentUser) { %>
+    <hr />
+    <h3 class="text-center mb-4">Leave a Review</h3>
+    <div class="col-lg-6 col-md-8 col-sm-10 mx-auto">
+      <form
+        method="post"
+        action="/listings/<%= listing.id %>/reviews"
+        class="needs-validation"
+        novalidate
+      >
+        <!-- Rating section -->
+        <fieldset class="starability-basic mb-4">
+          <legend class="text-secondary">Rate Your Experience:</legend>
+  
+          <!-- No rating option -->
+          <input
+            type="radio"
+            id="no-rate"
+            class="input-no-rate"
+            name="review[rating]"
+            value="0"
+            checked
+            aria-label="No rating."
+          />
+  
+          <!-- 1 star -->
+          <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+          <label for="first-rate1" title="Terrible">1 star</label>
+  
+          <!-- 2 stars -->
+          <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+          <label for="first-rate2" title="Not good">2 stars</label>
+  
+          <!-- 3 stars -->
+          <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+          <label for="first-rate3" title="Average">3 stars</label>
+  
+          <!-- 4 stars -->
+          <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+          <label for="first-rate4" title="Very good">4 stars</label>
+  
+          <!-- 5 stars -->
+          <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+          <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
+  
+        <!-- Comment section -->
+        <div class="mb-4">
+          <label for="comment" class="form-label text-secondary">Your Comment:</label>
+          <textarea
+            name="review[comment]"
+            id="comment"
+            class="form-control"
+            rows="4"
+            required
+          ></textarea>
+          <div class="invalid-feedback">Please enter a comment.</div>
+        </div>
+  
+        <!-- Submit button -->
+        <div class="d-grid">
+          <button type="submit" class="btn btn-dark btn-lg">
+            <i class="bi bi-send-fill"></i> Submit Review
+          </button>
+        </div>
+      </form>
+    </div>
+  <% } %>
+  
+  <hr />
+  <div class="review row row-cols-sm-1 row-cols-lg-2 row-cols-md-1 offset-1">
+    <% for ( let review of listing.reviews) {%>
+      <div class="card p-3 col-md-5 m-2 shadow-sm border-0" style="width: 30rem; background-color: #f8f9fa;">
+        <div class="card-body">
+          <!-- Author and Date -->
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="card-title mb-0 text-primary">
+              <i class="bi bi-person-fill"></i> @<%= review.author.username %>
+            </h5>
+            <p class="text-muted small mb-0">
+              <%= review.createdAt.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+            </p>
+          </div>
+      
+          <!-- Rating -->
+          <p class="starability-result mb-3" data-rating="<%= review.rating %>"></p>
+      
+          <!-- Comment -->
+          <p class="card-text text-dark"><%= review.comment %></p>
+      
+          <!-- Delete button (for current user only) -->
+          <% if(currentUser && currentUser._id.equals(review.author._id)) { %>
+            <div class="text-end">
+              <form method="post" action="/listings/<%= listing.id %>/reviews/<%= review.id %>?_method=delete">
+                <button class="btn btn-outline-danger btn-sm">
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </form>
+            </div>
+          <% } %>
+        </div>
+      </div>
+      
+    <% } %>
+  </div>
+</div>

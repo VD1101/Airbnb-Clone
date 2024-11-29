@@ -1,0 +1,140 @@
+<% layout("/layouts/boilerplate") %>
+<script>
+  let mapToken = "<%= process.env.MAP_TOKEN%>";
+  let coordinates = <%- JSON.stringify(listing.geometry.coordinates) %>;
+</script>
+<body>
+  <div class="row justify-content-md-center">
+    <h1 class="col-9 mb-3"><%= listing.title %></h1>
+    <div class="card col-8 border-white">
+      <% if(listing.image.length == 1) {%>
+      <img
+        src="<%= listing.image[0].url %>"
+        class="card-img-top"
+        alt="image"
+        style="height: 20rem; object-fit: contain"
+      />
+      <% }else{ %>
+      <!-- start  -->
+      <div
+        id="carouselExampleIndicators"
+        class="carousel slide"
+        data-ride="carousel"
+      >
+        <ol class="carousel-indicators">
+          <% for (let i = 0; i < listing.image.length; i++) { %>
+          <li
+            data-target="#carouselExampleIndicators"
+            data-slide-to="<%= i %>"
+            class="<%= i === 0 ? 'active' : '' %>"
+          ></li>
+          <% } %>
+        </ol>
+        <div class="carousel-inner">
+          <% listing.image.forEach((img, index) => { %>
+          <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+            <img
+              style="height: 20rem; object-fit: contain"
+              class="d-block w-100 card-img-top"
+              src="<%= img.url %>"
+              alt="Slide <%= index + 1 %>"
+            />
+          </div>
+          <% }) %>
+        </div>
+        <a
+          class="carousel-control-prev"
+          href="#carouselExampleIndicators"
+          role="button"
+          data-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a
+          class="carousel-control-next"
+          href="#carouselExampleIndicators"
+          role="button"
+          data-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+
+      <!-- end  -->
+      <% } %>
+
+      <!-- card start  -->
+      <div class="card mt-4 border-0">
+        <div class="card-body">
+          <h5 class="card-title text-dark">
+            <strong><%= listing.title %></strong>
+          </h5>
+          <p class="card-text text-muted mb-2"><%= listing.description %></p>
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <p class="card-text text-success mb-0">
+              <strong
+                >&dollar;<%= listing.price.toLocaleString("en-CA") %></strong
+              >
+              / night
+            </p>
+
+            <p class="card-text text-secondary mb-0">
+              <i class="bi bi-geo-alt-fill"></i> <%= listing.location %>, <%=
+              listing.country %>
+            </p>
+          </div>
+
+          <hr />
+
+          <!-- Amenities -->
+          <p class="card-text mb-2"><strong>Amenities:</strong></p>
+          <ul class="list-inline">
+            <% listing.amenities.forEach(function(amenity) { %>
+            <li class="list-inline-item badge bg-light text-dark p-2 mb-1">
+              <%= amenity %>
+            </li>
+            <% }); %>
+          </ul>
+          
+          <hr />
+
+          <!-- Contact -->
+          <p class="card-text mb-1"><strong>Contact Information:</strong></p>
+          <p class="card-text">
+            <i class="bi bi-envelope-fill"></i> <%= listing.contact.email %><br />
+            <i class="bi bi-telephone-fill"></i> <%= listing.contact.phone %>
+          </p>
+        </div>
+      </div>
+
+      <!-- card end  -->
+    </div>
+  </div>
+  <% if(currentUser && currentUser._id.equals(listing.owner._id)) {%>
+  <div class="button row offset-2 mt-3 mb-3">
+    <a href="/listings/<%=listing.id  %>/edit" class="btn btn-dark col-1"
+      >Edit</a
+    >
+    <br />
+    <form
+      method="post"
+      action="/listings/<%= listing.id  %>?_method=delete"
+      class="col-1"
+    >
+      <button class="btn btn-dark">Delete</button>
+    </form>
+  </div>
+  <% } %>
+  <hr>
+  <div class="map-container row justify-content-center">
+    <h4 class="col-8">Where you'll be</h4>
+    <div id="map" class="col-7"></div>
+  </div>
+  <%- include('../includes/reviews') %>
+
+  <script src="/js/map.js"></script>
+</body>
+<!-- // this script is for the novalidate form  -->

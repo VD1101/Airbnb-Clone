@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flash Message Example</title>
+    <style>
+      /* Flash Message Container */
+      .flash-message {
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px auto;
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        animation: fadein 0.5s;
+      }
+
+      /* Success Message Styling */
+      .flash-message.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      /* Error Message Styling */
+      .flash-message.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      /* Close Button Styling */
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 1rem;
+        font-weight: bold;
+        color: inherit;
+        cursor: pointer;
+      }
+
+      /* Animation for smooth fade in */
+      @keyframes fadein {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Hide the flash message on close */
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Flash Messages -->
+    <div class="container">
+      <% if(success.length && success) { %>
+      <div class="flash-message success" id="flashSuccess">
+        <span><%= success %></span>
+        <button class="close-btn" onclick="closeFlashMessage('flashSuccess')">
+          &times;
+        </button>
+      </div>
+      <% } %> <% if(failer.length && failer) { %>
+      <div class="flash-message error" id="flashError">
+        <span><%= failer %></span>
+        <button class="close-btn" onclick="closeFlashMessage('flashError')">
+          &times;
+        </button>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- Example Content Below -->
+    <script>
+      function closeFlashMessage(id) {
+        // Hide the flash message when close button is clicked
+        document.getElementById(id).classList.add("hidden");
+      }
+    </script>
+  </body>
+</html>
